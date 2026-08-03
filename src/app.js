@@ -6,6 +6,7 @@ import { notificationService } from './modules/notifications.js';
 import { CanvasPVTTestEngine } from './modules/pvtTest.js';
 import { PhysiologicalResetEngine } from './modules/resetProtocol.js';
 import { CanvasFatigueChartEngine } from './modules/charts.js';
+import { CircadianHeatmapEngine } from './modules/circadian.js';
 
 class AppController {
   constructor() {
@@ -18,6 +19,7 @@ class AppController {
     this.resetEngine = null;
     this.lockoutResetEngine = null;
     this.chartEngine = null;
+    this.circadianEngine = null;
 
     // Timer state
     this.checkinTimerId = null;
@@ -139,7 +141,6 @@ class AppController {
       });
     });
 
-    // Quick Action buttons on Dashboard
     document.getElementById('btnQuickTest')?.addEventListener('click', () => {
       this.switchTab('tab-test');
       this.startReactionTest();
@@ -154,7 +155,6 @@ class AppController {
       this.startReactionTest();
     });
 
-    // Protocol phase switching buttons
     document.querySelectorAll('.phase-btn').forEach((btn) => {
       btn.addEventListener('click', () => {
         document.querySelectorAll('.phase-btn').forEach(b => b.classList.remove('active'));
@@ -205,6 +205,11 @@ class AppController {
     if (chartCanvas) {
       this.chartEngine = new CanvasFatigueChartEngine(chartCanvas);
     }
+
+    const circadianCanvas = document.getElementById('circadianCanvas');
+    if (circadianCanvas) {
+      this.circadianEngine = new CircadianHeatmapEngine(circadianCanvas);
+    }
   }
 
   startReactionTest() {
@@ -215,17 +220,11 @@ class AppController {
   }
 
   async handleTestCompleted(results) {
-    // 1. Save to DB
     await biometricStorage.saveTestRun(results);
-
-    // 2. Recompute Baseline
     this.baseline = await biometricStorage.computeBaseline();
-
-    // 3. Refresh Dashboard & Reset Timer
     await this.refreshDashboard();
     this.resetCheckinTimer();
 
-    // 4. Trigger Strict Lockout Modal if DEGRADED
     if (results.status === 'DEGRADED' && this.settings.strictLockout) {
       this.triggerHardLockout(results);
     }
@@ -331,14 +330,19 @@ class AppController {
   }
 
   async renderChartAndHistory() {
-    const history = await biometricStorage.getHistory(50);
+    const history = await biometricStorage.getHistory(500);
 
     // 1. Render Trend Chart
     if (this.chartEngine) {
       this.chartEngine.renderTrends(history, this.baseline.baselineMedianRT);
     }
 
-    // 2. Render History Table
+    // 2. Render Circadian Risk Heatmap
+    if (this.circadianEngine) {
+      this.circadianEngine.render(history);
+    }
+
+    // 3. Render History Table
     const tbody = document.getElementById('tblHistoryBody');
     if (tbody) {
       tbody.innerHTML = '';
@@ -369,7 +373,6 @@ class AppController {
   setupSettingsForm() {
     const form = document.getElementById('formSettings');
     if (form) {
-      // Pre-fill
       document.getElementById('selectInterval').value = this.settings.intervalMinutes;
       document.getElementById('selectResetDuration').value = this.settings.resetDurationSeconds;
       document.getElementById('chkStrictLockout').checked = this.settings.strictLockout;
@@ -424,7 +427,6 @@ class AppController {
   }
 }
 
-// Instantiate on DOM ready
 document.addEventListener('DOMContentLoaded', () => {
   const app = new AppController();
   app.init();

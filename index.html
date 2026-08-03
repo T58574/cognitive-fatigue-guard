@@ -54,7 +54,7 @@
       <button class="tab-btn active" data-tab="tab-dashboard">Dashboard</button>
       <button class="tab-btn" data-tab="tab-test">15s Reaction Test</button>
       <button class="tab-btn" data-tab="tab-protocol">Reset Protocol</button>
-      <button class="tab-btn" data-tab="tab-history">Dynamics & History</button>
+      <button class="tab-btn" data-tab="tab-history">Dynamics & Circadian Risk</button>
       <button class="tab-btn" data-tab="tab-settings">Settings</button>
     </nav>
 
@@ -157,8 +157,9 @@
       </div>
     </section>
 
-    <!-- Tab 4: Dynamics & History -->
+    <!-- Tab 4: Dynamics & Circadian Risk -->
     <section id="tab-history" class="tab-content" style="display: none;">
+      <!-- Trends Chart Card -->
       <div class="canvas-card">
         <div class="canvas-card-header">
           <h3 style="font-size: 1rem; font-weight: 800; color: var(--text-main);">Reaction Time & Variability Dynamics</h3>
@@ -167,6 +168,16 @@
 
         <div class="canvas-wrapper">
           <canvas id="chartCanvas"></canvas>
+        </div>
+      </div>
+
+      <!-- Circadian Heatmap Card -->
+      <div class="canvas-card" style="margin-top: 16px;">
+        <div class="canvas-card-header">
+          <h3 style="font-size: 1rem; font-weight: 800; color: var(--accent-cyan);">24-Hour Circadian Fatigue Risk Heatmap</h3>
+        </div>
+        <div class="canvas-wrapper">
+          <canvas id="circadianCanvas"></canvas>
         </div>
       </div>
 
