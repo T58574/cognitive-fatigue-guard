@@ -1,5 +1,4 @@
-// Physiological Reset Protocol Engine
-// Canvas Guided Breathwork (Physiological Sigh), Saccadic Eye Tracking, and Lockout Manager
+// Physiological Reset Protocol Engine - Soothing Dark Pastel Zen Design
 
 import { audioEngine } from './audio.js';
 
@@ -18,12 +17,8 @@ export class PhysiologicalResetEngine {
     this.remainingSeconds = this.durationSeconds;
     this.timerIntervalId = null;
 
-    // Breathwork State
-    this.breathCycleState = 'INHALE1'; // 'INHALE1' | 'INHALE2' | 'EXHALE'
-    this.breathProgress = 0; // 0 to 1
+    this.breathCycleState = 'INHALE1';
     this.breathPhaseStartTime = performance.now();
-
-    // Saccade Target Position
     this.saccadeAngle = 0;
 
     this.resizeCanvas();
@@ -94,7 +89,7 @@ export class PhysiologicalResetEngine {
     const h = this.height;
     const now = performance.now();
 
-    ctx.fillStyle = '#060a12';
+    ctx.fillStyle = '#10141d';
     ctx.fillRect(0, 0, w, h);
 
     if (this.activePhase === 'BREATHWORK') {
@@ -108,28 +103,27 @@ export class PhysiologicalResetEngine {
     // Top Lock Timer
     ctx.textAlign = 'right';
     ctx.textBaseline = 'top';
-    ctx.fillStyle = '#ff0844';
-    ctx.font = '700 14px monospace';
+    ctx.fillStyle = '#81b29a';
+    ctx.font = '600 13px monospace';
     const mins = Math.floor(this.remainingSeconds / 60);
     const secs = String(this.remainingSeconds % 60).padStart(2, '0');
-    ctx.fillText(`LOCK TIMER: ${mins}:${secs}`, w - 15, 15);
+    ctx.fillText(`Отдых: ${mins}:${secs}`, w - 15, 15);
   }
 
   renderBreathwork(ctx, w, h, now) {
     const phaseElapsed = (now - this.breathPhaseStartTime) / 1000;
 
-    // Physiological Sigh Timings
     const tInhale1 = 1.4;
     const tInhale2 = 0.7;
     const tExhale = 3.6;
 
     let targetRadius = 40;
-    let label = 'FIRST INHALE (NOSE)';
+    let label = '1. Глубокий вдох (носом)';
 
     if (this.breathCycleState === 'INHALE1') {
       const progress = Math.min(1, phaseElapsed / tInhale1);
       targetRadius = 40 + progress * 45;
-      label = '1. DEEP INHALE (NOSE)';
+      label = '1. Глубокий вдох (носом)';
       if (progress >= 1) {
         this.breathCycleState = 'INHALE2';
         this.breathPhaseStartTime = now;
@@ -139,7 +133,7 @@ export class PhysiologicalResetEngine {
     } else if (this.breathCycleState === 'INHALE2') {
       const progress = Math.min(1, phaseElapsed / tInhale2);
       targetRadius = 85 + progress * 25;
-      label = '2. QUICK SECOND TOP-OFF INHALE';
+      label = '2. Короткий до-вдох';
       if (progress >= 1) {
         this.breathCycleState = 'EXHALE';
         this.breathPhaseStartTime = now;
@@ -149,7 +143,7 @@ export class PhysiologicalResetEngine {
     } else if (this.breathCycleState === 'EXHALE') {
       const progress = Math.min(1, phaseElapsed / tExhale);
       targetRadius = 110 - progress * 70;
-      label = '3. SLOW LONG EXHALE (MOUTH)';
+      label = '3. Медленный длинный выдох (ртом)';
       if (progress >= 1) {
         this.breathCycleState = 'INHALE1';
         this.breathPhaseStartTime = now;
@@ -157,48 +151,41 @@ export class PhysiologicalResetEngine {
       }
     }
 
-    // Concentric Breath Rings
-    ctx.save();
-    ctx.shadowColor = '#00f2fe';
-    ctx.shadowBlur = 30;
-
+    // Concentric Breath Circles in Pastel Sage
     const grad = ctx.createRadialGradient(w / 2, h / 2, 5, w / 2, h / 2, targetRadius);
-    grad.addColorStop(0, 'rgba(0, 242, 254, 0.8)');
-    grad.addColorStop(1, 'rgba(79, 172, 254, 0.1)');
+    grad.addColorStop(0, 'rgba(129, 178, 154, 0.4)');
+    grad.addColorStop(1, 'rgba(129, 178, 154, 0.05)');
 
     ctx.fillStyle = grad;
     ctx.beginPath();
     ctx.arc(w / 2, h / 2, targetRadius, 0, Math.PI * 2);
     ctx.fill();
 
-    ctx.strokeStyle = '#00f2fe';
-    ctx.lineWidth = 3;
+    ctx.strokeStyle = '#81b29a';
+    ctx.lineWidth = 2.5;
     ctx.stroke();
-    ctx.restore();
 
-    // Guidance text
     ctx.textAlign = 'center';
     ctx.textBaseline = 'middle';
-    ctx.fillStyle = '#ffffff';
-    ctx.font = '800 18px system-ui, sans-serif';
+    ctx.fillStyle = '#f4f1de';
+    ctx.font = '600 17px system-ui, sans-serif';
     ctx.fillText(label, w / 2, h / 2);
 
-    ctx.fillStyle = '#94a3b8';
-    ctx.font = '600 12px system-ui, sans-serif';
-    ctx.fillText('PHYSIOLOGICAL SIGH (NEURAL PARASYMPATHETIC RESET)', w / 2, h - 35);
+    ctx.fillStyle = '#9bb1c9';
+    ctx.font = '500 12px system-ui, sans-serif';
+    ctx.fillText('Physiological Sigh (Сброс напряжения нервной системы)', w / 2, h - 30);
   }
 
   renderSaccadeEye(ctx, w, h, now) {
-    this.saccadeAngle += 0.02;
+    this.saccadeAngle += 0.018;
 
     const radiusX = w * 0.35;
     const radiusY = h * 0.28;
     const x = w / 2 + Math.cos(this.saccadeAngle) * radiusX;
-    const y = h / 2 + Math.sin(this.saccadeAngle * 2) * radiusY * 0.5; // Figure-8 infinity path
+    const y = h / 2 + Math.sin(this.saccadeAngle * 2) * radiusY * 0.5;
 
-    // Draw Infinity Track
-    ctx.strokeStyle = 'rgba(255, 255, 255, 0.08)';
-    ctx.lineWidth = 4;
+    ctx.strokeStyle = 'rgba(255, 255, 255, 0.06)';
+    ctx.lineWidth = 3;
     ctx.beginPath();
     for (let t = 0; t < Math.PI * 2; t += 0.05) {
       const tx = w / 2 + Math.cos(t) * radiusX;
@@ -208,44 +195,39 @@ export class PhysiologicalResetEngine {
     }
     ctx.stroke();
 
-    // Moving Saccade Target
-    ctx.save();
-    ctx.shadowColor = '#10b981';
-    ctx.shadowBlur = 20;
-    ctx.fillStyle = '#10b981';
+    ctx.fillStyle = '#81b29a';
     ctx.beginPath();
-    ctx.arc(x, y, 16, 0, Math.PI * 2);
+    ctx.arc(x, y, 14, 0, Math.PI * 2);
     ctx.fill();
-    ctx.restore();
 
     ctx.textAlign = 'center';
     ctx.textBaseline = 'middle';
-    ctx.fillStyle = '#f8fafc';
-    ctx.font = '700 15px system-ui, sans-serif';
-    ctx.fillText('FOLLOW THE GREEN TARGET WITH EYES ONLY (NO HEAD MOVEMENT)', w / 2, 40);
-    ctx.fillStyle = '#64748b';
+    ctx.fillStyle = '#f4f1de';
+    ctx.font = '600 14px system-ui, sans-serif';
+    ctx.fillText('Следите за кругом только глазами (не двигайте головой)', w / 2, 40);
+    ctx.fillStyle = '#9bb1c9';
     ctx.font = '12px system-ui, sans-serif';
-    ctx.fillText('Relieves optic nerve & visual cortex fatigue (20-20-20 rule)', w / 2, 62);
+    ctx.fillText('Снимает спазм аккомодации и расслабляет зрительный отдел', w / 2, 60);
   }
 
   renderPostureCheck(ctx, w, h) {
     ctx.textAlign = 'center';
     ctx.textBaseline = 'middle';
 
-    ctx.fillStyle = '#38bdf8';
-    ctx.font = '800 20px system-ui, sans-serif';
-    ctx.fillText('PHYSICAL SOMATIC ALIGNMENT', w / 2, 45);
+    ctx.fillStyle = '#81b29a';
+    ctx.font = '700 18px system-ui, sans-serif';
+    ctx.fillText('Физическое расслабление тела', w / 2, 45);
 
     const items = [
-      '1. 💧 Drink 250ml of clean room-temperature water',
-      '2. 💆 Release jaw tension & drop shoulders away from ears',
-      '3. 🧘 Extend cervical spine and align neck over chest',
-      '4. 👁️ Soft gaze into distance (unfocus peripheral vision)'
+      '1. 💧 Сделайте пару глотков чистой воды',
+      '2. 💆 Опустите плечи и расслабьте сжатые челюсти',
+      '3. 🧘 Выпрямите шейный отдел позвоночника',
+      '4. 👁️ Расфокусируйте взгляд вдали на несколько секунд'
     ];
 
     items.forEach((item, idx) => {
-      ctx.fillStyle = '#e2e8f0';
-      ctx.font = '600 14px system-ui, sans-serif';
+      ctx.fillStyle = '#f4f1de';
+      ctx.font = '500 14px system-ui, sans-serif';
       ctx.fillText(item, w / 2, 95 + idx * 38);
     });
   }

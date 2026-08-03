@@ -3,12 +3,11 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>Cognitive Fatigue Guard | Детектор когнитивного износа</title>
+  <title>Cognitive Fatigue Guard | Пространство перезагрузки</title>
   
-  <meta name="description" content="15-секундный замер скорости моторно-зрительной реакции и вариабельности ЦНС с протоколом физиологической перезагрузки.">
-  <meta name="theme-color" content="#00f2fe">
+  <meta name="description" content="Микро-инструмент контроля когнитивного износа и физиологической перезагрузки.">
+  <meta name="theme-color" content="#141923">
 
-  <!-- PWA Manifest & Icons -->
   <link rel="manifest" href="manifest.json">
   <link rel="icon" type="image/svg+xml" href="icon-192.svg">
   <link rel="apple-touch-icon" href="icon-192.svg">
@@ -17,117 +16,83 @@
 </head>
 <body>
 
-  <!-- Top Header -->
+  <!-- Top Zen Header -->
   <header>
     <div class="brand">
       <img src="icon-192.svg" alt="Logo" class="brand-icon">
       <div>
         <div class="brand-title">FATIGUE GUARD</div>
-        <div class="brand-subtitle">Детектор когнитивного износа ЦНС</div>
+        <div class="brand-subtitle">Защита от выгорания и износа</div>
       </div>
     </div>
 
     <div class="header-actions">
-      <button id="btnAudioToggle" class="icon-btn" title="Переключить биометрический звук">
-        <span id="audioIcon">🔊</span> <span id="audioLabel">Звук ВКЛ</span>
+      <button id="btnAudioToggle" class="icon-btn">
+        <span id="audioIcon">🔊</span> <span id="audioLabel">Звук</span>
       </button>
-      <button id="btnInitAudio" class="icon-btn" style="background: rgba(0,242,254,0.15); border-color: var(--accent-cyan);">
-        ⚡ Включить Звук
+      <button id="btnInitAudio" class="icon-btn" style="background: rgba(129,178,154,0.15); border-color: var(--pastel-sage);">
+        ⚡ Включить звук
       </button>
     </div>
   </header>
 
-  <!-- Main Container -->
+  <!-- Main Content Layout -->
   <main>
 
     <!-- 1-Click PWA Installation Banner -->
-    <div id="pwaBanner" class="pwa-banner" style="display: none;">
-      <div class="pwa-banner-text">
-        <h4>📱 Установить приложение в 1 клик (Android / Windows)</h4>
-        <p>Запускайте Fatigue Guard автономно без интернета прямо с рабочего стола.</p>
+    <div id="pwaBanner" class="pwa-banner" style="display: none; background: rgba(129,178,154,0.1); border: 1px solid var(--pastel-sage); border-radius: 16px; padding: 14px 20px; align-items: center; justify-content: space-between; gap: 12px;">
+      <div>
+        <h4 style="font-size: 0.9rem; font-weight: 700; color: var(--pastel-sage);">📱 Установите приложение в 1 клик</h4>
+        <p style="font-size: 0.8rem; color: var(--pastel-muted);">Добавьте иконку на рабочий стол для быстрой работы без интернета.</p>
       </div>
-      <button id="btnInstallPWA" class="btn-primary">Установить сейчас</button>
+      <button id="btnInstallPWA" class="btn-zen-primary" style="width: auto; padding: 8px 16px; font-size: 0.85rem;">Установить</button>
     </div>
 
     <!-- Navigation Tabs -->
     <nav class="nav-tabs">
-      <button class="tab-btn active" data-tab="tab-dashboard">Панель управления</button>
-      <button class="tab-btn" data-tab="tab-test">15с Замер реакции</button>
-      <button class="tab-btn" data-tab="tab-protocol">Протокол перезагрузки</button>
-      <button class="tab-btn" data-tab="tab-history">Динамика и Циркадные риски</button>
+      <button class="tab-btn active" data-tab="tab-home">Главная</button>
+      <button class="tab-btn" data-tab="tab-test">15с Замер</button>
+      <button class="tab-btn" data-tab="tab-protocol">Перезагрузка</button>
       <button class="tab-btn" data-tab="tab-settings">Настройки</button>
     </nav>
 
-    <!-- Tab 1: Dashboard -->
-    <section id="tab-dashboard" class="tab-content">
-      <div class="dashboard-grid">
-
-        <!-- Status Card -->
-        <div class="card">
-          <div class="card-header">
-            <span class="card-title">Состояние ЦНС</span>
-            <span id="badgeCnsStatus" class="status-badge status-optimal">ОПТИМАЛЬНОЕ</span>
-          </div>
-          <div id="valCnsScore" class="card-value">0%</div>
-          <div class="card-subtext">Индекс износа от плавающего базиса</div>
+    <!-- Tab 1: Home Zen View -->
+    <section id="tab-home" class="tab-content">
+      <div class="hero-timer-card">
+        
+        <div style="display: flex; justify-content: space-between; align-items: center; width: 100%;">
+          <span style="font-size: 0.85rem; color: var(--pastel-muted); font-weight: 600;">Состояние ЦНС</span>
+          <span id="badgeCnsStatus" class="status-badge status-optimal">ОПТИМАЛЬНОЕ</span>
         </div>
 
-        <!-- Latency Card -->
-        <div class="card">
-          <div class="card-header">
-            <span class="card-title">Медиана времени реакции</span>
-            <span class="card-subtext">Базис: <span id="lblBaselineRT">260</span>мс</span>
-          </div>
-          <div id="valMedianRT" class="card-value">-- мс</div>
-          <div class="card-subtext">Скорость моторно-зрительного отклика</div>
+        <!-- Serene Timer Circle -->
+        <div class="timer-circle">
+          <div id="valNextCheckin" class="timer-circle-value">02:00:00</div>
+          <div class="timer-circle-label">До следующей паузы</div>
         </div>
 
-        <!-- RTV Variability Card -->
-        <div class="card">
-          <div class="card-header">
-            <span class="card-title">Вариабельность (RTV)</span>
-            <span class="card-subtext">Базис: <span id="lblBaselineRTV">±35</span>мс</span>
-          </div>
-          <div id="valRtvSD" class="card-value">±-- мс</div>
-          <div class="card-subtext">Разброс отклика (Высокий = риск микросна)</div>
+        <p style="font-size: 0.88rem; color: var(--pastel-muted); max-width: 440px;">
+          Когда таймер сигнализирует — сделайте паузу, пройдите 15-секундный мягкий замер или дыхательную перезагрузку.
+        </p>
+
+        <div class="hero-actions">
+          <button id="btnQuickTest" class="btn-zen-primary">🌿 Начать 15с паузу и замер</button>
+          <button id="btnQuickReset" class="btn-zen-secondary">🧘 Дыхательная перезагрузка</button>
+          <button id="btnResetTimerDirect" class="btn-zen-secondary" style="border-color: rgba(129,178,154,0.3); color: var(--pastel-sage);">✅ Все в порядке (сбросить таймер)</button>
         </div>
 
-        <!-- 2-Hour Check-in Countdown Card -->
-        <div class="card">
-          <div class="card-header">
-            <span class="card-title">Следующий замер</span>
-            <span class="card-subtext">Цикл: <span id="lblIntervalSetting">2 Часа</span></span>
-          </div>
-          <div id="valNextCheckin" class="card-value" style="color: var(--accent-cyan);">02:00:00</div>
-          <div class="card-subtext">Автоматический таймер и уведомления</div>
-        </div>
-
-      </div>
-
-      <!-- Quick Action Panel -->
-      <div class="card" style="margin-top: 16px; background: linear-gradient(135deg, rgba(15,23,42,0.8), rgba(0,242,254,0.05)); border-color: rgba(0,242,254,0.2);">
-        <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 16px;">
-          <div>
-            <h3 style="font-size: 1.1rem; font-weight: 800; color: #ffffff;">Запустить 15-секундный экспресс-тест</h3>
-            <p style="font-size: 0.85rem; color: var(--text-muted); margin-top: 4px;">Замер Psychomotor Vigilance (PVT) и импульсивности на Canvas.</p>
-          </div>
-          <div style="display: flex; gap: 12px;">
-            <button id="btnQuickTest" class="btn-primary">⚡ Начать замер 15с</button>
-            <button id="btnQuickReset" class="btn-secondary">🧘 Протокол перезагрузки</button>
-          </div>
-        </div>
       </div>
     </section>
 
-    <!-- Tab 2: Reaction Test View -->
+    <!-- Tab 2: 15s Sensory Test View -->
     <section id="tab-test" class="tab-content" style="display: none;">
-      <div class="canvas-card">
-        <div class="canvas-card-header">
+      <div class="card">
+        <div style="display: flex; justify-content: space-between; align-items: center;">
           <div>
-            <h3 style="font-size: 1rem; font-weight: 800; color: var(--text-main);">Canvas Psychomotor Vigilance (PVT-Micro)</h3>
-            <p style="font-size: 0.8rem; color: var(--text-muted);">Жми на неоновый сигнал МГНОВЕННО. Игнорируй КРАСНЫЕ ложные сигналы.</p>
+            <h3 style="font-size: 1rem; font-weight: 700; color: var(--pastel-cream);">15-Секундный замер отклика</h3>
+            <p style="font-size: 0.8rem; color: var(--pastel-muted);">Нажимайте на мягкие зеленые сигналы. Пропускайте красные.</p>
           </div>
-          <button id="btnStartTestTab" class="btn-primary">Начать тест 15с</button>
+          <button id="btnStartTestTab" class="btn-zen-primary" style="width: auto; padding: 8px 16px; font-size: 0.85rem;">Старт</button>
         </div>
 
         <div class="canvas-wrapper">
@@ -138,16 +103,16 @@
 
     <!-- Tab 3: Physiological Reset View -->
     <section id="tab-protocol" class="tab-content" style="display: none;">
-      <div class="canvas-card" style="border-color: rgba(16, 185, 129, 0.3);">
-        <div class="canvas-card-header">
+      <div class="card">
+        <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px;">
           <div>
-            <h3 style="font-size: 1rem; font-weight: 800; color: var(--accent-success);">Протокол физиологической перезагрузки</h3>
-            <p style="font-size: 0.8rem; color: var(--text-muted);">Сброс вегетативной нервной системы: Дыхание Physiological Sigh, снятие спазма глаз, осанка.</p>
+            <h3 style="font-size: 1rem; font-weight: 700; color: var(--pastel-sage);">Протокол снятия усталости</h3>
+            <p style="font-size: 0.8rem; color: var(--pastel-muted);">Мягкое дыхание (Physiological Sigh) и расслабление глазных мышц.</p>
           </div>
-          <div style="display: flex; gap: 8px;">
-            <button class="btn-secondary phase-btn active" data-phase="BREATHWORK">🫁 Дыхание</button>
-            <button class="btn-secondary phase-btn" data-phase="SACCADE_EYE">👁️ Глаза (20-20-20)</button>
-            <button class="btn-secondary phase-btn" data-phase="POSTURE_CHECK">🧘 Осанка и Тело</button>
+          <div style="display: flex; gap: 6px;">
+            <button class="btn-zen-secondary phase-btn active" data-phase="BREATHWORK" style="padding: 6px 12px; font-size: 0.8rem; width: auto;">🫁 Дыхание</button>
+            <button class="btn-zen-secondary phase-btn" data-phase="SACCADE_EYE" style="padding: 6px 12px; font-size: 0.8rem; width: auto;">👁️ Глаза</button>
+            <button class="btn-zen-secondary phase-btn" data-phase="POSTURE_CHECK" style="padding: 6px 12px; font-size: 0.8rem; width: auto;">🧘 Тело</button>
           </div>
         </div>
 
@@ -157,120 +122,67 @@
       </div>
     </section>
 
-    <!-- Tab 4: Dynamics & Circadian Risk -->
-    <section id="tab-history" class="tab-content" style="display: none;">
-      <div class="canvas-card">
-        <div class="canvas-card-header">
-          <h3 style="font-size: 1rem; font-weight: 800; color: var(--text-main);">Динамика времени реакции и вариабельности</h3>
-          <button id="btnExportCSV" class="btn-secondary">📥 Скачать CSV</button>
-        </div>
-
-        <div class="canvas-wrapper">
-          <canvas id="chartCanvas"></canvas>
-        </div>
-      </div>
-
-      <div class="canvas-card" style="margin-top: 16px;">
-        <div class="canvas-card-header">
-          <h3 style="font-size: 1rem; font-weight: 800; color: var(--accent-cyan);">24-Часовая циркадная карта рисков износа</h3>
-        </div>
-        <div class="canvas-wrapper">
-          <canvas id="circadianCanvas"></canvas>
-        </div>
-      </div>
-
-      <div class="card" style="margin-top: 16px;">
-        <div class="card-header">
-          <span class="card-title">Журнал замеров IndexedDB</span>
-          <button id="btnClearHistory" class="btn-secondary" style="font-size: 0.75rem; color: var(--accent-danger);">Очистить БД</button>
-        </div>
-
-        <div class="history-table-wrapper">
-          <table>
-            <thead>
-              <tr>
-                <th>Дата / Время</th>
-                <th>Статус</th>
-                <th>Медиана RT</th>
-                <th>RTV (Разброс)</th>
-                <th>Провалы</th>
-                <th>Ошибки</th>
-                <th>Индекс износа</th>
-              </tr>
-            </thead>
-            <tbody id="tblHistoryBody">
-              <!-- Dynamically rendered -->
-            </tbody>
-          </table>
-        </div>
-      </div>
-    </section>
-
-    <!-- Tab 5: Settings -->
+    <!-- Tab 4: Settings -->
     <section id="tab-settings" class="tab-content" style="display: none;">
-      <div class="card" style="max-width: 650px; margin: 0 auto;">
-        <div class="card-header">
-          <span class="card-title">Конфигурация Fatigue Guard</span>
-        </div>
+      <div class="card">
+        <h3 style="font-size: 1rem; font-weight: 700; color: var(--pastel-cream);">Настройки цикла пауз</h3>
 
         <form id="formSettings" style="display: flex; flex-direction: column; gap: 16px; margin-top: 8px;">
           <div class="form-group">
-            <label for="selectInterval">Интервал проверок</label>
+            <label for="selectInterval">Периодичность пауз</label>
             <select id="selectInterval" class="form-control">
-              <option value="30">Каждые 30 минут (Высокий стресс)</option>
+              <option value="30">Каждые 30 минут (Интенсивная работа)</option>
               <option value="60">Каждый 1 час</option>
               <option value="90">Каждые 1.5 часа</option>
-              <option value="120" selected>Каждые 2 часа (Стандартный протокол)</option>
+              <option value="120" selected>Каждые 2 часа (Стандарт)</option>
             </select>
           </div>
 
           <div class="form-group">
-            <label for="selectResetDuration">Длительность блокировки перезагрузки</label>
+            <label for="selectResetDuration">Время перезагрузки</label>
             <select id="selectResetDuration" class="form-control">
-              <option value="120">2 Минуты (Быстрый сброс)</option>
-              <option value="180" selected>3 Минуты (Научный стандарт)</option>
-              <option value="300">5 Минут (Глубокое восстановление)</option>
+              <option value="120">2 Минуты</option>
+              <option value="180" selected>3 Минуты</option>
+              <option value="300">5 Минут</option>
             </select>
           </div>
 
           <div class="form-group" style="flex-direction: row; align-items: center; justify-content: space-between;">
             <div>
-              <label style="font-size: 0.9rem; color: var(--text-main);">Режим жесткой блокировки (Lockout)</label>
-              <p style="font-size: 0.78rem; color: var(--text-muted);">При просадке ЦНС > 20% блокирует работу модалом.</p>
+              <label style="font-size: 0.9rem; color: var(--pastel-cream);">Мягкая блокировка при утомлении</label>
+              <p style="font-size: 0.78rem; color: var(--pastel-muted);">Предлагать паузу при деградации отклика.</p>
             </div>
-            <input type="checkbox" id="chkStrictLockout" checked style="width: 20px; height: 20px; accent-color: var(--accent-cyan);">
+            <input type="checkbox" id="chkStrictLockout" checked style="width: 20px; height: 20px; accent-color: var(--pastel-sage);">
           </div>
 
           <div class="form-group" style="flex-direction: row; align-items: center; justify-content: space-between;">
             <div>
-              <label style="font-size: 0.9rem; color: var(--text-main);">Процедурный аудио-синтезатор</label>
-              <p style="font-size: 0.78rem; color: var(--text-muted);">Воспроизведение звуков тревоги и ритмов дыхания.</p>
+              <label style="font-size: 0.9rem; color: var(--pastel-cream);">Мягкие звуковые сигналы</label>
+              <p style="font-size: 0.78rem; color: var(--pastel-muted);">Расслабляющие тона для дыхания и таймера.</p>
             </div>
-            <input type="checkbox" id="chkSoundEnabled" checked style="width: 20px; height: 20px; accent-color: var(--accent-cyan);">
+            <input type="checkbox" id="chkSoundEnabled" checked style="width: 20px; height: 20px; accent-color: var(--pastel-sage);">
           </div>
 
-          <button type="submit" class="btn-primary" style="margin-top: 8px;">Сохранить настройки</button>
+          <button type="submit" class="btn-zen-primary" style="margin-top: 8px;">Сохранить настройки</button>
         </form>
       </div>
     </section>
 
   </main>
 
-  <!-- Hard Lockout Modal Overlay -->
+  <!-- Hard Lockout / Soft Rest Modal -->
   <div id="modalLockout" class="lockout-modal" style="display: none;">
     <div class="lockout-content">
-      <div class="lockout-header">
-        <h2>🚨 ЖЕСТКАЯ БЛОКИРОВКА: ОБЯЗАТЕЛЬНАЯ ПЕРЕЗАГРУЗКА</h2>
-        <p>Зафиксирована микро-деградация ЦНС. Продолжение работы приведёт к выгоранию и ошибкам.</p>
-      </div>
+      <h2 style="color: var(--pastel-terracotta); font-size: 1.3rem; font-weight: 700;">🧘 Время сделать паузу и восстановиться</h2>
+      <p style="color: var(--pastel-muted); font-size: 0.88rem;">Зафиксировано снижение скорости реакции. Сделайте 3-минутный дыхательный сброс.</p>
 
       <div class="canvas-wrapper">
         <canvas id="lockoutCanvas"></canvas>
       </div>
 
       <div style="display: flex; justify-content: space-between; align-items: center;">
-        <span style="font-size: 0.82rem; color: var(--text-muted);">Выполните дыхательную практику или дождитесь таймера.</span>
-        <button id="btnDismissLockout" class="btn-secondary" style="display: none;">Разблокировать</button>
+        <span style="font-size: 0.8rem; color: var(--pastel-muted);">Сделайте несколько глубоких выдохов.</span>
+        <button id="btnDismissLockout" class="btn-zen-secondary" style="display: none; width: auto;">Продолжить работу</button>
       </div>
     </div>
   </div>
