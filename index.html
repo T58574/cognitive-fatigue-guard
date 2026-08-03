@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Cognitive Fatigue Guard | Детектор когнитивного износа</title>
+  
+  <meta name="description" content="15-second visual-motor reaction & variability micro-test for CNS fatigue detection with physiological reset protocol.">
+  <meta name="theme-color" content="#00f2fe">
+
+  <!-- PWA Manifest & Icons -->
+  <link rel="manifest" href="/manifest.json">
+  <link rel="icon" type="image/svg+xml" href="/icon-192.svg">
+  <link rel="apple-touch-icon" href="/icon-192.svg">
+
+  <link rel="stylesheet" href="/src/style.css">
+</head>
+<body>
+
+  <!-- Top Header -->
+  <header>
+    <div class="brand">
+      <img src="/icon-192.svg" alt="Logo" class="brand-icon">
+      <div>
+        <div class="brand-title">FATIGUE GUARD</div>
+        <div class="brand-subtitle">CNS Micro-Degradation Detector</div>
+      </div>
+    </div>
+
+    <div class="header-actions">
+      <button id="btnAudioToggle" class="icon-btn" title="Toggle Biometric Sound Engine">
+        <span id="audioIcon">🔊</span> <span id="audioLabel">Sound ON</span>
+      </button>
+      <button id="btnInitAudio" class="icon-btn" style="background: rgba(0,242,254,0.15); border-color: var(--accent-cyan);">
+        ⚡ Enable Audio
+      </button>
+    </div>
+  </header>
+
+  <!-- Main Container -->
+  <main>
+
+    <!-- 1-Click PWA Installation Banner -->
+    <div id="pwaBanner" class="pwa-banner" style="display: none;">
+      <div class="pwa-banner-text">
+        <h4>📱 Install 1-Click Desktop & Android App</h4>
+        <p>Run Cognitive Fatigue Guard natively offline on Windows PC or Mobile Android.</p>
+      </div>
+      <button id="btnInstallPWA" class="btn-primary">Install Now</button>
+    </div>
+
+    <!-- Navigation Tabs -->
+    <nav class="nav-tabs">
+      <button class="tab-btn active" data-tab="tab-dashboard">Dashboard</button>
+      <button class="tab-btn" data-tab="tab-test">15s Reaction Test</button>
+      <button class="tab-btn" data-tab="tab-protocol">Reset Protocol</button>
+      <button class="tab-btn" data-tab="tab-history">Dynamics & History</button>
+      <button class="tab-btn" data-tab="tab-settings">Settings</button>
+    </nav>
+
+    <!-- Tab 1: Dashboard -->
+    <section id="tab-dashboard" class="tab-content">
+      <div class="dashboard-grid">
+
+        <!-- Status Card -->
+        <div class="card">
+          <div class="card-header">
+            <span class="card-title">CNS State</span>
+            <span id="badgeCnsStatus" class="status-badge status-optimal">OPTIMAL</span>
+          </div>
+          <div id="valCnsScore" class="card-value">0%</div>
+          <div class="card-subtext">Degradation index compared to rolling baseline</div>
+        </div>
+
+        <!-- Latency Card -->
+        <div class="card">
+          <div class="card-header">
+            <span class="card-title">Median Reaction Time</span>
+            <span class="card-subtext">Baseline: <span id="lblBaselineRT">260</span>ms</span>
+          </div>
+          <div id="valMedianRT" class="card-value">-- ms</div>
+          <div class="card-subtext">Sub-millisecond motor-visual latency</div>
+        </div>
+
+        <!-- RTV Variability Card -->
+        <div class="card">
+          <div class="card-header">
+            <span class="card-title">Reaction Variability (RTV)</span>
+            <span class="card-subtext">Baseline: <span id="lblBaselineRTV">±35</span>ms</span>
+          </div>
+          <div id="valRtvSD" class="card-value">±-- ms</div>
+          <div class="card-subtext">Standard deviation (High = microsleep risk)</div>
+        </div>
+
+        <!-- 2-Hour Check-in Countdown Card -->
+        <div class="card">
+          <div class="card-header">
+            <span class="card-title">Next Check-In</span>
+            <span class="card-subtext">Cycle: <span id="lblIntervalSetting">2 Hours</span></span>
+          </div>
+          <div id="valNextCheckin" class="card-value" style="color: var(--accent-cyan);">02:00:00</div>
+          <div class="card-subtext">Automatic alert & notification scheduled</div>
+        </div>
+
+      </div>
+
+      <!-- Quick Action Panel -->
+      <div class="card" style="margin-top: 16px; background: linear-gradient(135deg, rgba(15,23,42,0.8), rgba(0,242,254,0.05)); border-color: rgba(0,242,254,0.2);">
+        <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 16px;">
+          <div>
+            <h3 style="font-size: 1.1rem; font-weight: 800; color: #ffffff;">Launch 15-Second Micro-Checkin</h3>
+            <p style="font-size: 0.85rem; color: var(--text-muted); margin-top: 4px;">Evaluates Psychomotor Vigilance & impulse discrimination on Canvas.</p>
+          </div>
+          <div style="display: flex; gap: 12px;">
+            <button id="btnQuickTest" class="btn-primary">⚡ Start 15s Reaction Test</button>
+            <button id="btnQuickReset" class="btn-secondary">🧘 Manual Reset Protocol</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Tab 2: Reaction Test View -->
+    <section id="tab-test" class="tab-content" style="display: none;">
+      <div class="canvas-card">
+        <div class="canvas-card-header">
+          <div>
+            <h3 style="font-size: 1rem; font-weight: 800; color: var(--text-main);">Canvas Psychomotor Vigilance (PVT-Micro)</h3>
+            <p style="font-size: 0.8rem; color: var(--text-muted);">Tap neon signal instantly. Ignore RED decoy signals.</p>
+          </div>
+          <button id="btnStartTestTab" class="btn-primary">Start 15s Test</button>
+        </div>
+
+        <div class="canvas-wrapper">
+          <canvas id="pvtCanvas"></canvas>
+        </div>
+      </div>
+    </section>
+
+    <!-- Tab 3: Physiological Reset View -->
+    <section id="tab-protocol" class="tab-content" style="display: none;">
+      <div class="canvas-card" style="border-color: rgba(16, 185, 129, 0.3);">
+        <div class="canvas-card-header">
+          <div>
+            <h3 style="font-size: 1rem; font-weight: 800; color: var(--accent-success);">Physiological Reset Protocol</h3>
+            <p style="font-size: 0.8rem; color: var(--text-muted);">Somatic nervous system reboot: Physiological Sigh, Saccade Eye Relief, Posture alignment.</p>
+          </div>
+          <div style="display: flex; gap: 8px;">
+            <button class="btn-secondary phase-btn active" data-phase="BREATHWORK">🫁 Breathwork</button>
+            <button class="btn-secondary phase-btn" data-phase="SACCADE_EYE">👁️ Eye Saccades</button>
+            <button class="btn-secondary phase-btn" data-phase="POSTURE_CHECK">🧘 Posture Check</button>
+          </div>
+        </div>
+
+        <div class="canvas-wrapper">
+          <canvas id="resetCanvas"></canvas>
+        </div>
+      </div>
+    </section>
+
+    <!-- Tab 4: Dynamics & History -->
+    <section id="tab-history" class="tab-content" style="display: none;">
+      <div class="canvas-card">
+        <div class="canvas-card-header">
+          <h3 style="font-size: 1rem; font-weight: 800; color: var(--text-main);">Reaction Time & Variability Dynamics</h3>
+          <button id="btnExportCSV" class="btn-secondary">📥 Export Data (CSV)</button>
+        </div>
+
+        <div class="canvas-wrapper">
+          <canvas id="chartCanvas"></canvas>
+        </div>
+      </div>
+
+      <!-- History Table Card -->
+      <div class="card" style="margin-top: 16px;">
+        <div class="card-header">
+          <span class="card-title">IndexedDB Test Log History</span>
+          <button id="btnClearHistory" class="btn-secondary" style="font-size: 0.75rem; color: var(--accent-danger);">Clear Data</button>
+        </div>
+
+        <div class="history-table-wrapper">
+          <table>
+            <thead>
+              <tr>
+                <th>Date / Time</th>
+                <th>Status</th>
+                <th>Median RT</th>
+                <th>RTV (SD)</th>
+                <th>Lapses</th>
+                <th>False Starts</th>
+                <th>Fatigue Index</th>
+              </tr>
+            </thead>
+            <tbody id="tblHistoryBody">
+              <!-- Dynamically rendered -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- Tab 5: Settings -->
+    <section id="tab-settings" class="tab-content" style="display: none;">
+      <div class="card" style="max-width: 650px; margin: 0 auto;">
+        <div class="card-header">
+          <span class="card-title">Cognitive Guard Configuration</span>
+        </div>
+
+        <form id="formSettings" style="display: flex; flex-direction: column; gap: 16px; margin-top: 8px;">
+          <div class="form-group">
+            <label for="selectInterval">Check-In Reminders Interval</label>
+            <select id="selectInterval" class="form-control">
+              <option value="30">Every 30 Minutes (High Stress)</option>
+              <option value="60">Every 1 Hour</option>
+              <option value="90">Every 1.5 Hours</option>
+              <option value="120" selected>Every 2 Hours (Standard Protocol)</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label for="selectResetDuration">Physiological Reset Lockout Duration</label>
+            <select id="selectResetDuration" class="form-control">
+              <option value="120">2 Minutes (Fast Reboot)</option>
+              <option value="180" selected>3 Minutes (Standard Science Protocol)</option>
+              <option value="300">5 Minutes (Deep CNS Recovery)</option>
+            </select>
+          </div>
+
+          <div class="form-group" style="flex-direction: row; align-items: center; justify-content: space-between;">
+            <div>
+              <label style="font-size: 0.9rem; color: var(--text-main);">Strict Work Lockout Mode</label>
+              <p style="font-size: 0.78rem; color: var(--text-muted);">Enforce mandatory reset modal on >20% CNS degradation.</p>
+            </div>
+            <input type="checkbox" id="chkStrictLockout" checked style="width: 20px; height: 20px; accent-color: var(--accent-cyan);">
+          </div>
+
+          <div class="form-group" style="flex-direction: row; align-items: center; justify-content: space-between;">
+            <div>
+              <label style="font-size: 0.9rem; color: var(--text-main);">Procedural Web Audio Engine</label>
+              <p style="font-size: 0.78rem; color: var(--text-muted);">Play high-tech alert alarms and breath guides.</p>
+            </div>
+            <input type="checkbox" id="chkSoundEnabled" checked style="width: 20px; height: 20px; accent-color: var(--accent-cyan);">
+          </div>
+
+          <button type="submit" class="btn-primary" style="margin-top: 8px;">Save Settings</button>
+        </form>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Hard Lockout Modal Overlay -->
+  <div id="modalLockout" class="lockout-modal" style="display: none;">
+    <div class="lockout-content">
+      <div class="lockout-header">
+        <h2>🚨 HARD LOCK: MANDATORY RESET ENGAGED</h2>
+        <p>Micro-degradation detected in prefrontal reaction speed & response variability. Continued work will cause severe burnout.</p>
+      </div>
+
+      <div class="canvas-wrapper">
+        <canvas id="lockoutCanvas"></canvas>
+      </div>
+
+      <div style="display: flex; justify-content: space-between; align-items: center;">
+        <span style="font-size: 0.82rem; color: var(--text-muted);">Complete breathwork or wait for lock timer to finish.</span>
+        <button id="btnDismissLockout" class="btn-secondary" style="display: none;">Dismiss Lockout</button>
+      </div>
+    </div>
+  </div>
+
+  <script type="module" src="/src/app.js"></script>
+</body>
+</html>
