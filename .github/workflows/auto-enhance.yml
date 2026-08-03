@@ -1,0 +1,39 @@
+name: 24/7 Cloud Auto-Enhancement Engine
+
+on:
+  schedule:
+    - cron: '0 */2 * * *' # Runs every 2 hours in GitHub Cloud even if local PC is powered off
+  workflow_dispatch: # Allows manual trigger from GitHub UI anytime
+
+jobs:
+  cloud-enhance:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+        with:
+          ref: 'autoupdates'
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: 'npm'
+
+      - name: Install Dependencies
+        run: npm install
+
+      - name: Run Biometric Unit Tests
+        run: npm test
+
+      - name: Build Application Bundle
+        run: npm run build
+
+      - name: Auto-Commit Cloud Log
+        run: |
+          git config user.name "FatigueGuard-CloudBot"
+          git config user.email "bot@fatigueguard.local"
+          echo "Cloud health check executed at $(date -u)" >> cloud_log.txt
+          git add cloud_log.txt
+          git commit -m "chore(cloud): 2-hour automated health check and build verification" || exit 0
+          git push origin autoupdates
