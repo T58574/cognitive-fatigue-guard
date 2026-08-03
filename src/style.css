@@ -1,4 +1,5 @@
 /* Cognitive Fatigue Guard - Soothing Dark Pastel Zen Design System */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap');
 
 :root {
   --bg-dark: #141923;
@@ -13,7 +14,7 @@
   --pastel-muted: #9bb1c9;      /* Subtitle text */
   --pastel-dark-slate: #3d405b;
 
-  --font-sans: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
   --font-mono: 'JetBrains Mono', Consolas, monospace;
 }
 
@@ -35,64 +36,69 @@ body {
   flex-direction: column;
   line-height: 1.5;
   overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
-/* Zen Header */
+/* Header */
 header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 18px 24px;
+  padding: 18px 28px;
   background: rgba(20, 25, 35, 0.95);
   border-bottom: 1px solid var(--border-color);
   position: sticky;
   top: 0;
   z-index: 100;
+  backdrop-filter: blur(10px);
 }
 
 .brand {
   display: flex;
   align-items: center;
-  gap: 12px;
+  gap: 14px;
 }
 
 .brand-icon {
   width: 36px;
   height: 36px;
   border-radius: 50%;
-  opacity: 0.9;
 }
 
 .brand-title {
-  font-size: 1.1rem;
-  font-weight: 700;
-  letter-spacing: -0.3px;
+  font-size: 1.15rem;
+  font-weight: 800;
+  letter-spacing: -0.02em;
   color: var(--pastel-cream);
 }
 
 .brand-subtitle {
-  font-size: 0.75rem;
+  font-size: 0.76rem;
   color: var(--pastel-muted);
+  font-weight: 400;
 }
 
 .header-actions {
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: 12px;
 }
 
 .icon-btn {
   background: rgba(255, 255, 255, 0.05);
   border: 1px solid var(--border-color);
   color: var(--pastel-cream);
-  padding: 8px 14px;
-  border-radius: 12px;
+  padding: 8px 16px;
+  border-radius: 10px;
   cursor: pointer;
   display: flex;
   align-items: center;
-  gap: 6px;
+  gap: 8px;
   font-size: 0.85rem;
-  transition: all 0.25s ease;
+  font-family: var(--font-sans);
+  font-weight: 500;
+  transition: all 0.2s ease;
 }
 
 .icon-btn:hover {
@@ -103,34 +109,34 @@ header {
 /* Layout Container */
 main {
   flex: 1;
-  max-width: 680px;
+  max-width: 720px;
   width: 100%;
   margin: 0 auto;
-  padding: 24px 16px;
+  padding: 28px 20px;
   display: flex;
   flex-direction: column;
-  gap: 20px;
+  gap: 24px;
 }
 
-/* Zen Timer Circle Hero Card */
+/* Hero Timer Card */
 .hero-timer-card {
   background: var(--bg-card);
   border: 1px solid var(--border-color);
-  border-radius: 24px;
-  padding: 32px 24px;
+  border-radius: 20px;
+  padding: 36px 28px;
   display: flex;
   flex-direction: column;
   align-items: center;
   text-align: center;
-  gap: 20px;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+  gap: 24px;
+  box-shadow: 0 12px 35px rgba(0, 0, 0, 0.25);
 }
 
 .timer-circle {
-  width: 200px;
-  height: 200px;
+  width: 210px;
+  height: 210px;
   border-radius: 50%;
-  border: 4px solid rgba(129, 178, 154, 0.2);
+  border: 4px solid rgba(129, 178, 154, 0.18);
   border-top-color: var(--pastel-sage);
   display: flex;
   flex-direction: column;
@@ -141,17 +147,18 @@ main {
 }
 
 .timer-circle-value {
-  font-size: 2.2rem;
+  font-size: 2.3rem;
   font-weight: 700;
   font-family: var(--font-mono);
   color: var(--pastel-cream);
-  letter-spacing: -1px;
+  letter-spacing: -0.03em;
 }
 
 .timer-circle-label {
-  font-size: 0.8rem;
+  font-size: 0.82rem;
   color: var(--pastel-muted);
-  margin-top: 4px;
+  margin-top: 6px;
+  font-weight: 500;
 }
 
 .hero-actions {
@@ -165,46 +172,48 @@ main {
   background: var(--pastel-sage);
   color: #141923;
   font-weight: 700;
-  font-size: 1rem;
+  font-size: 0.95rem;
+  font-family: var(--font-sans);
   padding: 14px 24px;
   border: none;
-  border-radius: 16px;
+  border-radius: 12px;
   cursor: pointer;
-  transition: all 0.25s ease;
+  transition: all 0.2s ease;
   width: 100%;
-  box-shadow: 0 4px 15px rgba(129, 178, 154, 0.2);
 }
 
 .btn-zen-primary:hover {
-  transform: translateY(-2px);
-  background: #8ec0a9;
+  background: #90c2aa;
+  transform: translateY(-1px);
 }
 
 .btn-zen-secondary {
-  background: rgba(255, 255, 255, 0.06);
+  background: rgba(255, 255, 255, 0.05);
   color: var(--pastel-cream);
   font-weight: 600;
-  font-size: 0.95rem;
+  font-size: 0.9rem;
+  font-family: var(--font-sans);
   padding: 12px 20px;
   border: 1px solid var(--border-color);
-  border-radius: 16px;
+  border-radius: 12px;
   cursor: pointer;
-  transition: all 0.25s ease;
+  transition: all 0.2s ease;
   width: 100%;
 }
 
 .btn-zen-secondary:hover {
-  background: rgba(255, 255, 255, 0.12);
+  background: rgba(255, 255, 255, 0.1);
+  border-color: rgba(255, 255, 255, 0.15);
 }
 
 /* Navigation Tabs */
 .nav-tabs {
   display: flex;
   justify-content: center;
-  gap: 8px;
+  gap: 6px;
   background: rgba(255, 255, 255, 0.03);
   padding: 6px;
-  border-radius: 16px;
+  border-radius: 14px;
   border: 1px solid var(--border-color);
 }
 
@@ -214,12 +223,13 @@ main {
   color: var(--pastel-muted);
   font-weight: 600;
   font-size: 0.85rem;
+  font-family: var(--font-sans);
   padding: 10px 16px;
-  border-radius: 12px;
+  border-radius: 10px;
   cursor: pointer;
   flex: 1;
   text-align: center;
-  transition: all 0.25s ease;
+  transition: all 0.2s ease;
 }
 
 .tab-btn.active {
@@ -232,16 +242,16 @@ main {
 .card {
   background: var(--bg-card);
   border: 1px solid var(--border-color);
-  border-radius: 20px;
+  border-radius: 18px;
   padding: 24px;
   display: flex;
   flex-direction: column;
-  gap: 16px;
+  gap: 18px;
 }
 
 .canvas-wrapper {
   width: 100%;
-  border-radius: 16px;
+  border-radius: 14px;
   overflow: hidden;
   background: #10141d;
   display: flex;
@@ -258,22 +268,40 @@ canvas {
 .status-badge {
   padding: 6px 14px;
   border-radius: 20px;
-  font-size: 0.8rem;
+  font-size: 0.78rem;
   font-weight: 700;
+  letter-spacing: 0.04em;
   text-transform: uppercase;
-  letter-spacing: 0.5px;
 }
 
 .status-optimal {
-  background: rgba(129, 178, 154, 0.18);
+  background: rgba(129, 178, 154, 0.15);
   color: var(--pastel-sage);
   border: 1px solid rgba(129, 178, 154, 0.3);
 }
 
 .status-degraded {
-  background: rgba(224, 122, 95, 0.18);
+  background: rgba(224, 122, 95, 0.15);
   color: var(--pastel-terracotta);
   border: 1px solid rgba(224, 122, 95, 0.4);
+}
+
+/* Info Box / Scientific Instruction Box */
+.info-box {
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid var(--border-color);
+  border-radius: 12px;
+  padding: 16px 20px;
+  font-size: 0.86rem;
+  color: var(--pastel-muted);
+  line-height: 1.6;
+}
+
+.info-box h4 {
+  color: var(--pastel-cream);
+  font-size: 0.92rem;
+  font-weight: 700;
+  margin-bottom: 6px;
 }
 
 /* Modals */
@@ -292,7 +320,7 @@ canvas {
 .lockout-content {
   background: var(--bg-card);
   border: 1px solid var(--pastel-terracotta);
-  border-radius: 24px;
+  border-radius: 20px;
   max-width: 520px;
   width: 100%;
   padding: 28px;
@@ -300,7 +328,6 @@ canvas {
   flex-direction: column;
   gap: 20px;
   text-align: center;
-  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.4);
 }
 
 /* Forms */
@@ -322,8 +349,9 @@ canvas {
   border: 1px solid var(--border-color);
   color: var(--pastel-cream);
   padding: 12px 16px;
-  border-radius: 12px;
+  border-radius: 10px;
   font-size: 0.92rem;
+  font-family: var(--font-sans);
 }
 
 .form-control:focus {
@@ -334,19 +362,19 @@ canvas {
 /* Mobile Responsiveness */
 @media (max-width: 600px) {
   header {
-    padding: 14px 16px;
+    padding: 14px 18px;
   }
   .brand-title {
-    font-size: 1rem;
+    font-size: 1.05rem;
   }
   .hero-timer-card {
-    padding: 24px 16px;
+    padding: 28px 18px;
   }
   .timer-circle {
-    width: 170px;
-    height: 170px;
+    width: 180px;
+    height: 180px;
   }
   .timer-circle-value {
-    font-size: 1.8rem;
+    font-size: 1.9rem;
   }
 }

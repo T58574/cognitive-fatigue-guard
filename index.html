@@ -3,9 +3,9 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>Cognitive Fatigue Guard | Пространство перезагрузки</title>
+  <title>Cognitive Fatigue Guard | Защита от когнитивного износа</title>
   
-  <meta name="description" content="Микро-инструмент контроля когнитивного износа и физиологической перезагрузки.">
+  <meta name="description" content="Автономный микро-инструмент контроля моторно-зрительной реакции и физиологической перезагрузки ЦНС.">
   <meta name="theme-color" content="#141923">
 
   <link rel="manifest" href="manifest.json">
@@ -16,13 +16,13 @@
 </head>
 <body>
 
-  <!-- Top Zen Header -->
+  <!-- Top Header -->
   <header>
     <div class="brand">
       <img src="icon-192.svg" alt="Logo" class="brand-icon">
       <div>
         <div class="brand-title">FATIGUE GUARD</div>
-        <div class="brand-subtitle">Защита от выгорания и износа</div>
+        <div class="brand-subtitle">Защита от микро-деградации ЦНС</div>
       </div>
     </div>
 
@@ -31,7 +31,7 @@
         <span id="audioIcon">🔊</span> <span id="audioLabel">Звук</span>
       </button>
       <button id="btnInitAudio" class="icon-btn" style="background: rgba(129,178,154,0.15); border-color: var(--pastel-sage);">
-        ⚡ Включить звук
+        Включить аудио
       </button>
     </div>
   </header>
@@ -40,10 +40,10 @@
   <main>
 
     <!-- 1-Click PWA Installation Banner -->
-    <div id="pwaBanner" class="pwa-banner" style="display: none; background: rgba(129,178,154,0.1); border: 1px solid var(--pastel-sage); border-radius: 16px; padding: 14px 20px; align-items: center; justify-content: space-between; gap: 12px;">
+    <div id="pwaBanner" class="pwa-banner" style="display: none; background: rgba(129,178,154,0.1); border: 1px solid var(--pastel-sage); border-radius: 14px; padding: 14px 20px; align-items: center; justify-content: space-between; gap: 12px;">
       <div>
-        <h4 style="font-size: 0.9rem; font-weight: 700; color: var(--pastel-sage);">📱 Установите приложение в 1 клик</h4>
-        <p style="font-size: 0.8rem; color: var(--pastel-muted);">Добавьте иконку на рабочий стол для быстрой работы без интернета.</p>
+        <h4 style="font-size: 0.9rem; font-weight: 700; color: var(--pastel-sage);">Установка приложения в 1 клик</h4>
+        <p style="font-size: 0.8rem; color: var(--pastel-muted);">Добавьте Fatigue Guard на главный экран Android или Windows для автономной работы.</p>
       </div>
       <button id="btnInstallPWA" class="btn-zen-primary" style="width: auto; padding: 8px 16px; font-size: 0.85rem;">Установить</button>
     </div>
@@ -71,14 +71,15 @@
           <div class="timer-circle-label">До следующей паузы</div>
         </div>
 
-        <p style="font-size: 0.88rem; color: var(--pastel-muted); max-width: 440px;">
-          Когда таймер сигнализирует — сделайте паузу, пройдите 15-секундный мягкий замер или дыхательную перезагрузку.
-        </p>
+        <div class="info-box">
+          <h4>Механика работы инструмента</h4>
+          Каждые 2 часа непрерывной работы префронтальная кора и моторно-зрительный отклик испытывают микро-деградацию. Запустите 15-секундный экспресс-замер или физиологическую перезагрузку.
+        </div>
 
         <div class="hero-actions">
-          <button id="btnQuickTest" class="btn-zen-primary">🌿 Начать 15с паузу и замер</button>
-          <button id="btnQuickReset" class="btn-zen-secondary">🧘 Дыхательная перезагрузка</button>
-          <button id="btnResetTimerDirect" class="btn-zen-secondary" style="border-color: rgba(129,178,154,0.3); color: var(--pastel-sage);">✅ Все в порядке (сбросить таймер)</button>
+          <button id="btnQuickTest" class="btn-zen-primary">Начать 15-секундный замер</button>
+          <button id="btnQuickReset" class="btn-zen-secondary">Протокол физиологической перезагрузки</button>
+          <button id="btnResetTimerDirect" class="btn-zen-secondary" style="border-color: rgba(129,178,154,0.3); color: var(--pastel-sage);">Подтвердить норму (сбросить таймер)</button>
         </div>
 
       </div>
@@ -87,16 +88,23 @@
     <!-- Tab 2: 15s Sensory Test View -->
     <section id="tab-test" class="tab-content" style="display: none;">
       <div class="card">
-        <div style="display: flex; justify-content: space-between; align-items: center;">
+        <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px;">
           <div>
-            <h3 style="font-size: 1rem; font-weight: 700; color: var(--pastel-cream);">15-Секундный замер отклика</h3>
-            <p style="font-size: 0.8rem; color: var(--pastel-muted);">Нажимайте на мягкие зеленые сигналы. Пропускайте красные.</p>
+            <h3 style="font-size: 1.05rem; font-weight: 700; color: var(--pastel-cream);">15-Секундный замер отклика (PVT-Micro)</h3>
+            <p style="font-size: 0.82rem; color: var(--pastel-muted);">Нажимайте на зеленые сигналы мгновенно. Пропускайте красные ложные стимулы.</p>
           </div>
-          <button id="btnStartTestTab" class="btn-zen-primary" style="width: auto; padding: 8px 16px; font-size: 0.85rem;">Старт</button>
+          <button id="btnStartTestTab" class="btn-zen-primary" style="width: auto; padding: 8px 16px; font-size: 0.85rem;">Старт замера</button>
         </div>
 
         <div class="canvas-wrapper">
           <canvas id="pvtCanvas"></canvas>
+        </div>
+
+        <div class="info-box">
+          <h4>Оцениваемые метрики:</h4>
+          • <strong>Медиана латентности (ms)</strong>: Скорость проведения нервного импульса.<br>
+          • <strong>Вариабельность RTV (SD)</strong>: Разброс отклика (высокий разброс укажет на провалы внимания).<br>
+          • <strong>Дискриминация сигналов</strong>: Точность торможения импульса при ложных сигналах.
         </div>
       </div>
     </section>
@@ -106,18 +114,23 @@
       <div class="card">
         <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px;">
           <div>
-            <h3 style="font-size: 1rem; font-weight: 700; color: var(--pastel-sage);">Протокол снятия усталости</h3>
-            <p style="font-size: 0.8rem; color: var(--pastel-muted);">Мягкое дыхание (Physiological Sigh) и расслабление глазных мышц.</p>
+            <h3 style="font-size: 1.05rem; font-weight: 700; color: var(--pastel-sage);">Протокол физиологической перезагрузки</h3>
+            <p style="font-size: 0.82rem; color: var(--pastel-muted);">Дыхание Physiological Sigh, расслабление глазных мышц и коррекция осанки.</p>
           </div>
           <div style="display: flex; gap: 6px;">
-            <button class="btn-zen-secondary phase-btn active" data-phase="BREATHWORK" style="padding: 6px 12px; font-size: 0.8rem; width: auto;">🫁 Дыхание</button>
-            <button class="btn-zen-secondary phase-btn" data-phase="SACCADE_EYE" style="padding: 6px 12px; font-size: 0.8rem; width: auto;">👁️ Глаза</button>
-            <button class="btn-zen-secondary phase-btn" data-phase="POSTURE_CHECK" style="padding: 6px 12px; font-size: 0.8rem; width: auto;">🧘 Тело</button>
+            <button class="btn-zen-secondary phase-btn active" data-phase="BREATHWORK" style="padding: 6px 12px; font-size: 0.8rem; width: auto;">Дыхание</button>
+            <button class="btn-zen-secondary phase-btn" data-phase="SACCADE_EYE" style="padding: 6px 12px; font-size: 0.8rem; width: auto;">Глаза</button>
+            <button class="btn-zen-secondary phase-btn" data-phase="POSTURE_CHECK" style="padding: 6px 12px; font-size: 0.8rem; width: auto;">Осанка</button>
           </div>
         </div>
 
         <div class="canvas-wrapper">
           <canvas id="resetCanvas"></canvas>
+        </div>
+
+        <div class="info-box">
+          <h4>Физиологический механизм:</h4>
+          Двойной вдох с длинным выдохом (Physiological Sigh) снижает частоту сердечных сокращений и мгновенно активирует парасимпатическую нервную систему.
         </div>
       </div>
     </section>
@@ -125,11 +138,11 @@
     <!-- Tab 4: Settings -->
     <section id="tab-settings" class="tab-content" style="display: none;">
       <div class="card">
-        <h3 style="font-size: 1rem; font-weight: 700; color: var(--pastel-cream);">Настройки цикла пауз</h3>
+        <h3 style="font-size: 1.05rem; font-weight: 700; color: var(--pastel-cream);">Настройки цикла проверок</h3>
 
         <form id="formSettings" style="display: flex; flex-direction: column; gap: 16px; margin-top: 8px;">
           <div class="form-group">
-            <label for="selectInterval">Периодичность пауз</label>
+            <label for="selectInterval">Периодичность проверок</label>
             <select id="selectInterval" class="form-control">
               <option value="30">Каждые 30 минут (Интенсивная работа)</option>
               <option value="60">Каждый 1 час</option>
@@ -139,10 +152,10 @@
           </div>
 
           <div class="form-group">
-            <label for="selectResetDuration">Время перезагрузки</label>
+            <label for="selectResetDuration">Длительность перезагрузки</label>
             <select id="selectResetDuration" class="form-control">
               <option value="120">2 Минуты</option>
-              <option value="180" selected>3 Минуты</option>
+              <option value="180" selected>3 Минуты (Научный стандарт)</option>
               <option value="300">5 Минут</option>
             </select>
           </div>
@@ -150,15 +163,15 @@
           <div class="form-group" style="flex-direction: row; align-items: center; justify-content: space-between;">
             <div>
               <label style="font-size: 0.9rem; color: var(--pastel-cream);">Мягкая блокировка при утомлении</label>
-              <p style="font-size: 0.78rem; color: var(--pastel-muted);">Предлагать паузу при деградации отклика.</p>
+              <p style="font-size: 0.78rem; color: var(--pastel-muted);">Запускать окно перезагрузки при просадке ЦНС.</p>
             </div>
             <input type="checkbox" id="chkStrictLockout" checked style="width: 20px; height: 20px; accent-color: var(--pastel-sage);">
           </div>
 
           <div class="form-group" style="flex-direction: row; align-items: center; justify-content: space-between;">
             <div>
-              <label style="font-size: 0.9rem; color: var(--pastel-cream);">Мягкие звуковые сигналы</label>
-              <p style="font-size: 0.78rem; color: var(--pastel-muted);">Расслабляющие тона для дыхания и таймера.</p>
+              <label style="font-size: 0.9rem; color: var(--pastel-cream);">Процедурные звуковые сигналы</label>
+              <p style="font-size: 0.78rem; color: var(--pastel-muted);">Аудио-сопровождение дыхания и уведомлений.</p>
             </div>
             <input type="checkbox" id="chkSoundEnabled" checked style="width: 20px; height: 20px; accent-color: var(--pastel-sage);">
           </div>
@@ -173,8 +186,8 @@
   <!-- Hard Lockout / Soft Rest Modal -->
   <div id="modalLockout" class="lockout-modal" style="display: none;">
     <div class="lockout-content">
-      <h2 style="color: var(--pastel-terracotta); font-size: 1.3rem; font-weight: 700;">🧘 Время сделать паузу и восстановиться</h2>
-      <p style="color: var(--pastel-muted); font-size: 0.88rem;">Зафиксировано снижение скорости реакции. Сделайте 3-минутный дыхательный сброс.</p>
+      <h2 style="color: var(--pastel-terracotta); font-size: 1.3rem; font-weight: 700;">Обязательная перезагрузка</h2>
+      <p style="color: var(--pastel-muted); font-size: 0.88rem;">Зафиксировано снижение латентности и стабильности реакции. Выполните 3-минутный дыхательный сброс.</p>
 
       <div class="canvas-wrapper">
         <canvas id="lockoutCanvas"></canvas>
